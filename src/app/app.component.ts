@@ -44,33 +44,25 @@ export class AppComponent {
     });
   }
 
-
   Search() {
-    this.students = this.students.filter(student => {
-      const searchString = this.searchTerm.toLowerCase();
-      return student.name.toLowerCase().includes(searchString) ||
-             student.department.toLowerCase().includes(searchString);
-    });
+    const searchString = this.searchTerm.toLowerCase();
+    this.students = this.students.filter(student => 
+      student.name.toLowerCase().includes(searchString) ||
+      student.department.toLowerCase().includes(searchString)
+    );
   }
+  
 
   filterStudentsByMarks() {
-
-    
     const minMarksNumber = parseFloat(this.minMarks.toString());
-    console.log(minMarksNumber);
     
-    if (typeof minMarksNumber === 'number') 
-  {
-    if (isNaN(minMarksNumber) || minMarksNumber <= 0) {
+    if (!isNaN(minMarksNumber) && minMarksNumber > 0) {
+      this.students = this.students.filter(student => student.totalMarks > minMarksNumber);
+    } else {
       this.resetStudents();
-      return;
     }
-  
-    this.students = this.students.filter(student => student.totalMarks > minMarksNumber);
   }
   
-  
-  }
   resetStudents() {
     this.students= [
       new Student("Mathew", 25, "Computer Science", 85),
